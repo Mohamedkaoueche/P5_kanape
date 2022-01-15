@@ -47,13 +47,13 @@
         <section class="item">
           <article>
             <div class="item__img">
-              <!-- <img src="../images/logo.png" alt="Photographie d'un canapé"> -->
+              
+              <img id="imageProduit" src="">
             </div>
             <div class="item__content">
-
               <div class="item__content__titlePrice">
                 <h1 id="title"><!-- Nom du produit --></h1>
-                <p>Prix : <span id="price"><!-- 42 --></span>€</p>
+                <p id="price">Prix : <span ><!-- 42 --></span>€</p>
               </div>
 
               <div class="item__content__description">
@@ -65,8 +65,8 @@
                 <div class="item__content__settings__color">
                   <label for="color-select">Choisir une couleur :</label>
                   <select name="color-select" id="colors">
-                      <option value="">--SVP, choisissez une couleur --</option>
-<!--                       <option value="vert">vert</option>
+                      <option id="option" value="">--SVP, choisissez une couleur --</option>
+<!--                     <option value="vert">vert</option>
                       <option value="blanc">blanc</option> -->
                   </select>
                 </div>
@@ -111,5 +111,6 @@
       </div>
     </footer>
   <script src="../js/product.js"></script>
+  <script src="../js/produits.js"></script>
   </body>
 </html>
