@@ -32,6 +32,4 @@ fetch('http://localhost:3000/api/products')
         }
     });
 
-/**** Affichage dynamique des produits */
 
-/*********** récupuration de l'ID du'produit ************/

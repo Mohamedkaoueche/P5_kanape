@@ -48,7 +48,7 @@
           <h1>Votre panier</h1>
           <section class="cart">
             <section id="cart__items">
-        <article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
+              <article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
                 <div class="cart__item__img">
                   <img src="../images/product01.jpg" alt="Photographie d'un canapé">
                 </div>
@@ -101,7 +101,8 @@
                   <p id="emailErrorMsg"></p>
                 </div>
                 <div class="cart__order__form__submit">
-                  <input type="submit" value="Commander !" id="order">
+                  <!-- Ajout du la fonction getElement-->
+                  <input type="submit"  value="Commander !" id="order">
                 </div>
               </form>
             </div>
@@ -134,5 +135,6 @@
       </div>
     </footer>
   <script src="../js/cart.js"></script>
+  <script src="../js/produits.js"></script>
   </body>
 </html>
