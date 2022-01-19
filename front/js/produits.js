@@ -18,7 +18,7 @@ fetch('http://localhost:3000/api/products')
     }
 // recuperation des donnée du produit
     let imageProduit = document.getElementById('imageProduit');
-    imageProduit.setAttribute('src',res.imageUrl)
+    imageProduit.setAttribute('src',res.imageUrl);
 
     let title = document.getElementById('title');
     title.textContent = res.name;
@@ -41,16 +41,36 @@ fetch('http://localhost:3000/api/products')
     }
 
     let boutton = document.getElementById('addToCart');
+    let couleur = document.getElementById('colors');
+    let quantity = document.getElementById('quantity');
+    
+    
+    let produitEnregistrerDansLocalStorage = JSON.parse(localStorage.getItem('produit'));
 
     boutton.addEventListener('click',(e)=>{
     e.preventDefault;
-    localStorage.setItem('Nom',res.name);
-    localStorage.setItem('image',res.imageUrl);
-    localStorage.setItem('Prix',res.price);
-    localStorage.setItem('Id',res._id);
-    localStorage.setItem('couleur',selectValue);
-    localStorage.setItem('Quantité',quantity);
-
+    let detailProduitPanier = {
+        nomProduit : res.name,
+        prixProduit : res.price,
+        idProduit : res._id,
+        couleurProduit : couleur.value,
+        quantiteProduit : quantity.value,
+    };
+  
+    if (produitEnregistrerDansLocalStorage) {
+        produitEnregistrerDansLocalStorage.push(detailProduitPanier);
+        localStorage.setItem('produit',JSON.stringify(produitEnregistrerDansLocalStorage));
+    }
+    else
+    {
+        produitEnregistrerDansLocalStorage = [];    
+        produitEnregistrerDansLocalStorage.push(detailProduitPanier);
+        localStorage.setItem('produit',JSON.stringify(produitEnregistrerDansLocalStorage));
+    }
+ 
+    console.log(detailProduitPanier);
 
     });
+    
+
 });
