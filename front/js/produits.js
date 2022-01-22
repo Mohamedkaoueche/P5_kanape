@@ -43,7 +43,7 @@ fetch('http://localhost:3000/api/products')
     let boutton = document.getElementById('addToCart');
     let couleur = document.getElementById('colors');
     let quantity = document.getElementById('quantity');
-    
+    let img = document.getElementById('imageProduit');
     
     let produitEnregistrerDansLocalStorage = JSON.parse(localStorage.getItem('produit'));
 
@@ -55,6 +55,7 @@ fetch('http://localhost:3000/api/products')
         idProduit : res._id,
         couleurProduit : couleur.value,
         quantiteProduit : quantity.value,
+        imageDuProduitSelectionner : img.src,
     };
   
     if (produitEnregistrerDansLocalStorage) {

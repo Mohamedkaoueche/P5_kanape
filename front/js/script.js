@@ -29,7 +29,9 @@ fetch('http://localhost:3000/api/products')
             article.append(image, h3, p);
             a.append(article);
             content.append(a);
+            console.log(element);
         }
+       
     });
 
 
