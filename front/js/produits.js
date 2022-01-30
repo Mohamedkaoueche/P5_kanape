@@ -16,7 +16,8 @@ fetch('http://localhost:3000/api/products')
     {
         return data._id === id
     }
-// recuperation des donnée du produit
+    
+    // recuperation des donnée du produit
     let imageProduit = document.getElementById('imageProduit');
     imageProduit.setAttribute('src',res.imageUrl);
 
@@ -31,7 +32,8 @@ fetch('http://localhost:3000/api/products')
 
     let select = document.getElementById('colors');
     const colors = res.colors;
-//boucle d'iteration variable 
+
+    //boucle d'iteration variable 
     for(const color of colors)
     {
         let option = document.createElement('option');
@@ -46,32 +48,41 @@ fetch('http://localhost:3000/api/products')
     let img = document.getElementById('imageProduit');
     
     let produitEnregistrerDansLocalStorage = JSON.parse(localStorage.getItem('produit'));
-
+    
+    let prixEnregistrerDansSessionSstorage = JSON.parse(sessionStorage.getItem('prix'));
+    
     boutton.addEventListener('click',(e)=>{
+
     e.preventDefault;
+
     let detailProduitPanier = {
         nomProduit : res.name,
-        prixProduit : res.price,
         idProduit : res._id,
         couleurProduit : couleur.value,
         quantiteProduit : quantity.value,
-        imageDuProduitSelectionner : img.src,
+        imageDuProduitSelectionner : img.src
     };
-  
-    if (produitEnregistrerDansLocalStorage) {
+
+    let prixDuproduitDansPanier ={
+        idProduit : res._id,
+        prix : res.price
+    };
+    if (produitEnregistrerDansLocalStorage && prixEnregistrerDansSessionSstorage ){
         produitEnregistrerDansLocalStorage.push(detailProduitPanier);
+        prixEnregistrerDansSessionSstorage.push(prixDuproduitDansPanier);
+
         localStorage.setItem('produit',JSON.stringify(produitEnregistrerDansLocalStorage));
+        sessionStorage.setItem('prix',JSON.stringify(prixEnregistrerDansSessionSstorage));
+        console.log(produitEnregistrerDansLocalStorage);
     }
     else
     {
-        produitEnregistrerDansLocalStorage = [];    
-        produitEnregistrerDansLocalStorage.push(detailProduitPanier);
+        prixEnregistrerDansSessionSstorage = []; 
+        produitEnregistrerDansLocalStorage = [];
         localStorage.setItem('produit',JSON.stringify(produitEnregistrerDansLocalStorage));
+        sessionStorage.setItem('prix',JSON.stringify(prixEnregistrerDansSessionSstorage));
+
+        console.log(produitEnregistrerDansLocalStorage);
     }
- 
-    console.log(detailProduitPanier);
-
     });
-    
-
 });
