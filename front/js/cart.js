@@ -4,7 +4,8 @@ const cart__item = document.getElementById('cart__items');
 let structureDuPanier = document.getElementById('cart__items');
 
 
- if (produitEnregistrerDansLocalStorage === null ||produitEnregistrerDansLocalStorage ==0 ) {
+ if (produitEnregistrerDansLocalStorage === null ||produitEnregistrerDansLocalStorage ==0) {
+
 // si le panier est vide on affiche "panier vide"
  let articlePanierVide = document.querySelector('h1');
  articlePanierVide.innerHTML ='<h1>Votre panier est vide</h1>'
@@ -37,11 +38,16 @@ else
     </div>
     </article>`;
     structureDuPanier.innerHTML = structurePanier ;
+    
   }
 
   
 }
 //////////////////////// Fin de gestion du panier ////////////////////////
+
+
+
+
 
 /////////////////////// Bouton supprimer produit/////////////////////////
 let bouttonSuprimer = document.getElementsByClassName('deleteItem');
@@ -61,20 +67,33 @@ for (let j = 0; j < bouttonSuprimer.length; j++) {
   
 }
 
+
+
+
+
+
 /////////Montant total du panier ////////
 
 let prixTotalCalcul = [];
-//let quantiteCalcul =[];
+let quantiteCalcul =[];
 
 for (let k = 0; k < prixEnregistrerDansSessionSstorage.length; k++)
 {
   prixTotalCalcul.push(prixEnregistrerDansSessionSstorage[k].prix);
-  //quantiteCalcul.push(produitEnregistrerDansLocalStorage[k].quantiteProduit) ;
+  quantiteCalcul.push(produitEnregistrerDansLocalStorage[k].quantiteProduit) ;
 }
 // addition des prix des produits dans le panier
 const reducer = (accumulateur, currentValue) => accumulateur+currentValue;
 const prixTotal = prixTotalCalcul.reduce(reducer,0);
-//const  quantiteTotal =  quantiteCalcul.reduce(reducer);
+const  quantiteTotal =  quantiteCalcul.reduce(reducer);
+
+
+
+
+
+
+
+
 
 
 // Affichage du prix total dans la page panier
@@ -82,8 +101,16 @@ const prixTotal = prixTotalCalcul.reduce(reducer,0);
 let prixTotalDesProduits = document.getElementById('totalPrice');
 prixTotalDesProduits.textContent = prixTotal;
 
-//let affichePorduitTotal = document.getElementById('totalQuantity');
-//affichePorduitTotal.textContent = quantiteTotal;
+let affichePorduitTotal = document.getElementById('totalQuantity');
+affichePorduitTotal.textContent = quantiteTotal;
+
+
+
+
+
+
+
+
 
 /**********  Gestion du formulaire *********/
 
@@ -130,15 +157,23 @@ const formulaire = document.querySelector('.cart__order');
 formulaire.insertAdjacentHTML("afterbegin",structureFormulaire);
 }
 
+
+
 // affichage du formulaire 
 afficherHtml();
+
+
 
 //recuperation du bouton 
 let bouton = document.getElementById('order');
 
+
+
 //listener 
 bouton.addEventListener('click',(e)=>{
   e.preventDefault();
+
+
 
 // Recuperation des donnees du formulaires
 const contactValue = {
@@ -149,29 +184,40 @@ const contactValue = {
   Email :document.getElementById('email').value
 }
 
+
 // Envoie des valeur dans un objets
 const objetContact = {
-  Prenom : localStorage.getItem('Prenom'),
-  Nom : localStorage.getItem('Nom'),
-  Adresse : localStorage.getItem('Adresse'),
-  Ville :localStorage.getItem('Ville'),
-  Email :localStorage.getItem('Email')
+  firstName : localStorage.getItem('Prenom'),
+  lastName : localStorage.getItem('Nom'),
+  address : localStorage.getItem('Adresse'),
+  city :localStorage.getItem('Ville'),
+  email :localStorage.getItem('Email')
 }
 const aEnvoyer = {
-  produitEnregistrerDansLocalStorage,
-  objetContact
+  contact: objetContact,
+  products: produitEnregistrerDansLocalStorage
 }
 controlFirstName();
 controlLastName();
 controlAdress();
 controlCity();
 controlEmail();
-
+// Enoie de la commande
   if(controlFirstName()&& controlLastName()&& controlAdress()&& controlCity()&& controlEmail ())
   {
     localStorage.setItem('contact', JSON.stringify(contactValue));
   }
-})
+  const promise = fetch("http://localhost:3000/api/products/order",{
+    method:'POST',
+    body:JSON.stringify(aEnvoyer),
+    headers:{
+      "Content-Type": "application/json"
+    }
+  });
+
+});
+
+
 
 //// Validation du formulaire
 function controlFirstName(){

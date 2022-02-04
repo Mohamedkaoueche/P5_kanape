@@ -53,36 +53,47 @@ fetch('http://localhost:3000/api/products')
     
     boutton.addEventListener('click',(e)=>{
 
-    e.preventDefault;
+        e.preventDefault();
 
-    let detailProduitPanier = {
-        nomProduit : res.name,
-        idProduit : res._id,
-        couleurProduit : couleur.value,
-        quantiteProduit : quantity.value,
-        imageDuProduitSelectionner : img.src
-    };
+        let detailProduitPanier = {
+            nomProduit : res.name,
+            idProduit : res._id,
+            couleurProduit : couleur.value,
+            quantiteProduit :parseInt(quantity.value),
+            imageDuProduitSelectionner : img.src
+        };
+        let prixDuproduitDansPanier ={
+            idProduit : res._id,
+            prix : res.price * quantity.value
+        };
+ 
+        if (produitEnregistrerDansLocalStorage && prixEnregistrerDansSessionSstorage ){
+            
+            produitEnregistrerDansLocalStorage.push(detailProduitPanier);
+            prixEnregistrerDansSessionSstorage.push(prixDuproduitDansPanier);
 
-    let prixDuproduitDansPanier ={
-        idProduit : res._id,
-        prix : res.price
-    };
-    if (produitEnregistrerDansLocalStorage && prixEnregistrerDansSessionSstorage ){
-        produitEnregistrerDansLocalStorage.push(detailProduitPanier);
-        prixEnregistrerDansSessionSstorage.push(prixDuproduitDansPanier);
+            
+            localStorage.setItem('produit',JSON.stringify(produitEnregistrerDansLocalStorage));
+            sessionStorage.setItem('prix',JSON.stringify(prixEnregistrerDansSessionSstorage));
+            
+        }
+        else if(produitEnregistrerDansLocalStorage.idProduit != null)
+        {
+            if (condition) {
+                for (let o = 0; o < produitEnregistrerDansLocalStorage.length; o++) {
+                
+                    produitEnregistrerDansLocalStorage[o].quantiteProduit++;
+                }
+            }
+           
+        }
+        else
+        {
+            prixEnregistrerDansSessionSstorage = []; 
+            produitEnregistrerDansLocalStorage = [];
+            localStorage.setItem('produit',JSON.stringify(produitEnregistrerDansLocalStorage));
+            sessionStorage.setItem('prix',JSON.stringify(prixEnregistrerDansSessionSstorage));
 
-        localStorage.setItem('produit',JSON.stringify(produitEnregistrerDansLocalStorage));
-        sessionStorage.setItem('prix',JSON.stringify(prixEnregistrerDansSessionSstorage));
-        console.log(produitEnregistrerDansLocalStorage);
-    }
-    else
-    {
-        prixEnregistrerDansSessionSstorage = []; 
-        produitEnregistrerDansLocalStorage = [];
-        localStorage.setItem('produit',JSON.stringify(produitEnregistrerDansLocalStorage));
-        sessionStorage.setItem('prix',JSON.stringify(prixEnregistrerDansSessionSstorage));
-
-        console.log(produitEnregistrerDansLocalStorage);
-    }
+        }
     });
 });
