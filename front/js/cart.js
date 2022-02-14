@@ -182,38 +182,14 @@ const aEnvoyer = {
   products: productIds
 }
 
-
-// Enoie de la commande
-  if(controlLastName() && controlAdress() && controlCity()&& controlEmail ())
-  {
-    localStorage.setItem('contact', JSON.stringify(contactValue));
-  
-    const promise = fetch("http://localhost:3000/api/products/order",{
-      method:'POST',
-      body:JSON.stringify(aEnvoyer),
-      headers:{
-        "Content-Type": "application/json",
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      localStorage.setItem("orderId", data.orderId);
-
-      window.location.href = window.location.origin + "/front/html/confirmation.html";
-    });
-  }
-});
-
-
-
 //// Validation du formulaire
 
-/* function controlFirstName(){
+function controlFirstName(){
   let inputFirstname= document.getElementById('firstName').value;
-  let regName = /^[a-z ,.'-]+$/i;
-  if(regName.test(inputFirstname)&&FirstnameErrorMsg)
+  let regFirstName = /^[a-z ,.'-]+$/i;
+  if(regFirstName.test(inputFirstname)&&firstNameErrorMsg)
   {
-    firstName.textContent = '';
+    firstNameErrorMsg.textContent = '';
     return true
   }
   else{
@@ -221,7 +197,7 @@ const aEnvoyer = {
     FirstnameErrorMsg.textContent = 'Veuillez renseigner votre nom';
   }
   return false
-} */
+}
 
 function controlLastName(){
   let inputLastName = document.getElementById('lastName').value;
@@ -284,3 +260,23 @@ function controlEmail(){
   return false
 }
 
+// Enoie de la commande
+  if(controlFirstName()&&controlLastName() && controlAdress() && controlCity()&& controlEmail ())
+  {
+    localStorage.setItem('contact', JSON.stringify(contactValue));
+  
+    const promise = fetch("http://localhost:3000/api/products/order",{
+      method:'POST',
+      body:JSON.stringify(aEnvoyer),
+      headers:{
+        "Content-Type": "application/json",
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      localStorage.setItem("orderId", data.orderId);
+
+      window.location.href = window.location.origin + "/front/html/confirmation.html";
+    });
+  }
+});
