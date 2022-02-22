@@ -49,7 +49,9 @@ else {
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
               <p>Qté : </p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${produitEnregistrerDansLocalStorage[i].quantiteProduit}" onchange="changerQuantite(${i})">
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" 
+              max="100" value="${produitEnregistrerDansLocalStorage[i].quantiteProduit}" 
+              onchange="changerQuantite(${i})">
             </div>
             <div class="cart__item__content__settings__delete">
               <p class="deleteItem" onclick="supprimerProduit('${i}')">Supprimer</p>
@@ -64,8 +66,6 @@ else {
     });
 }
 }
-//////////////////////// Fin de gestion du panier ////////////////////////
-
 // Suppresion de l'article
 var supprimerProduit = function(i) {
   let produitIndiceI = produitEnregistrerDansLocalStorage[i];
@@ -75,7 +75,6 @@ var supprimerProduit = function(i) {
   localStorage.setItem("produit", JSON.stringify(nouveauProduits));
   window.location.href = "cart.html";
 };
-
 
 ///////////////////// Mettre  à jour la quantité du produit ///////////////
 var changerQuantite = function(i) {
@@ -94,6 +93,7 @@ var changerQuantite = function(i) {
   localStorage.setItem("produit", JSON.stringify(produitEnregistrerDansLocalStorage));
   window.location.href = "cart.html";
 }
+//////////////////////// Fin de gestion du panier ////////////////////////
 
 
 /**********  Gestion du formulaire *********/
@@ -141,27 +141,15 @@ const formulaire = document.querySelector('.cart__order');
 formulaire.insertAdjacentHTML("afterbegin",structureFormulaire);
 }
 
-
-
 // affichage du formulaire 
 afficherHtml();
-
-
 
 //recuperation du bouton 
 let bouton = document.getElementById('order');
 
-
-
-
-
-
-
 //listener 
 bouton.addEventListener('click',(e)=>{
   e.preventDefault();
-
-
 
 // Recuperation des donnees du formulaires
 const contactValue = {
@@ -261,6 +249,7 @@ function controlEmail(){
 }
 
 // Enoie de la commande
+
   if(controlFirstName()&&controlLastName() && controlAdress() && controlCity()&& controlEmail ())
   {
     localStorage.setItem('contact', JSON.stringify(contactValue));

@@ -6,6 +6,7 @@ let id = params.get("id");
 
 var infosProduit;
 
+
 fetch('http://localhost:3000/api/products')
 .then(res => res.json())
 .then(data => {data
@@ -52,44 +53,54 @@ fetch('http://localhost:3000/api/products')
 
 let boutton = document.getElementById('addToCart');
 
-boutton.addEventListener('click',(e)=>{
-    e.preventDefault();
+    boutton.addEventListener('click',(e)=>{
+        e.preventDefault();
 
-    let couleur = document.getElementById('colors');
-    let quantity = document.getElementById("quantity");
+        let couleur = document.getElementById('colors');
+        let quantity = document.getElementById("quantity");
 
-    infosProduit.couleurProduit = couleur.value;
-    infosProduit.quantiteProduit = parseInt(quantity.value);
+        infosProduit.couleurProduit = couleur.value;
+        infosProduit.quantiteProduit = parseInt(quantity.value);
 
-    let produitEnregistrerDansLocalStorage = JSON.parse(localStorage.getItem("produit"));
+       produitEnregistrerDansLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
-    if (produitEnregistrerDansLocalStorage){
-        // vérifer que le produit n'existe pas
-        let produitExistePas = true;
+       //verifier que la couleur est séléctionné
+       if(infosProduit.couleurProduit == '')
+       {
+           alert('SVP, choisissez une couleur ');
+       }
+       else
+       {
+        if (produitEnregistrerDansLocalStorage){
+            // vérifer que le produit n'existe pas
+            let produitExistePas = true;
 
-        for (let i = 0; i < produitEnregistrerDansLocalStorage.length; i++) {
-            let produit = produitEnregistrerDansLocalStorage[i];
+            for (let i = 0; i < produitEnregistrerDansLocalStorage.length; i++) {
+                let produit = produitEnregistrerDansLocalStorage[i];
 
-            // si le produit existe déjà, je le mets à jour
-            if (produit.idProduit == infosProduit.idProduit && produit.couleurProduit == infosProduit.couleurProduit) {
-                produitExistePas = false;
-                produit.quantiteProduit += infosProduit.quantiteProduit;
+                // si le produit existe déjà, je le mets à jour
+                if (produit.idProduit == infosProduit.idProduit && produit.couleurProduit == infosProduit.couleurProduit) {
+                    produitExistePas = false;
+                    produit.quantiteProduit += infosProduit.quantiteProduit;
+                }
             }
+            
+            // si le produit n'existe pas dans le panier
+            if (produitExistePas == true) {
+                produitEnregistrerDansLocalStorage.push(infosProduit);
+            }
+            
+            // mettre à jour le panier
+            localStorage.setItem('produit', JSON.stringify(produitEnregistrerDansLocalStorage));   
         }
-
-        if (produitExistePas == true) {
+        else {
+            // si aucun produit dans le panier
+            produitEnregistrerDansLocalStorage = [];
             produitEnregistrerDansLocalStorage.push(infosProduit);
-        }
-        
-        
-        localStorage.setItem('produit', JSON.stringify(produitEnregistrerDansLocalStorage));   
-    }
-    else {
-        produitEnregistrerDansLocalStorage = [];
-        produitEnregistrerDansLocalStorage.push(infosProduit);
-        localStorage.setItem('produit', JSON.stringify(produitEnregistrerDansLocalStorage))
-    }
+            localStorage.setItem('produit', JSON.stringify(produitEnregistrerDansLocalStorage));
+        }        
+        alert("Le produit a bien été ajouté dans le panier.");
+       }
 
-    alert("Le produit a bien été ajouté dans le panier.")
 });
 
